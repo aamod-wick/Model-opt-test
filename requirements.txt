@@ -1,1 +1,8 @@
 nvidia-modelopt[onnx]
+pandas
+numpy
+scipy
+h5py
+requests
+logging 
+cuda-python
