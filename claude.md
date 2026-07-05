@@ -210,9 +210,22 @@ python -c "import onnx; model = onnx.load('model.onnx'); onnx.checker.check_mode
 - **Python Version**: 3.8+ recommended
 - **CUDA Version**: 11.8+ recommended
 
----
+## usage 
+# Quick FP8 quantization
+from frb_modelopt_quantizer import FRBModelOptQuantizer, QuantizationConfig, QuantizationMode
 
-*This file provides context for AI assistants working on this Model Optimization testing project.*
-```
+config = QuantizationConfig(
+    mode=QuantizationMode.FP8,
+    calibration_method="entropy",
+    batch_size=8
+)
 
-Save this as `CLAUDE.md` in your project root directory (`/home/aamod/Model-opt-test/CLAUDE.md`). This file will help any AI assistant (including Claude) understand your project structure, goals, and implementation details.
+quantizer = FRBModelOptQuantizer(
+    onnx_path="models/frb_model.onnx",
+    output_dir="quantized_models",
+    config=config
+)
+
+quantizer.quantize(
+    calibration_h5_files=list(Path("data/calibration").glob("*.h5"))
+)
